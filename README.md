@@ -1,24 +1,9 @@
----
-title: "Python Data Mining"
-date: 2021-09-11
-tags: [python, pandas, data mining, web scraping, data engineering, ETL, automation]
-header:
-  image: "/images/rough.png"
-excerpt: "Python, Pandas, Data Mining, Web Scraping, Data Engineering, ETL, Automation"
-mathjax: "true"
----
 
 # Diamond in The Rough
 
 Hello there! Once again I'm working in Python to show you how powerful the language is. In this project I will cover how to use a library named Beautiful Soup to scrape data from virtually any site. I will be interacting with a clothing company that I really enjoy shopping with; That company is Diamond Supply Co and I will be looking at their Carolina Blue Nautica Anorak. 
 
-### What you'll see in this project
 
-This project will cover:
-
-- How data can be extracted from a website using a Python library entitled Beautiful Soup.
-- Loading the data into Python via Beautiful Soup's web scraping capabilities.
-- 
 
 ## Import Dependencies
 
@@ -58,7 +43,7 @@ The **soup1** variable parses the HTML content of the page and transform it into
 I am only interested in the title and price of the item that I have selected to watch. Beautiful Soup uses the HTML id attribute to "fetch" the text for these two page elements. The easiest way to find this is to right click on the desired element and click inspect. A window should open on the screen and as you hover over the elements of the page it should highlight the HTML code associated with that specific element. As you see in the picture below, the price is being higlighted on the screen and the window to the right is focused on the HTML element associated with the item price; Notice that I have highlighted the id which will be used in the price variable below.
 
 
-![placeholder for price id image](image.jpg)
+![placeholder for price id image](price-id.PNG)
 
 This process was duplicated for the title variable. Once this is completed, the code block should look similar to this:
 
@@ -171,10 +156,38 @@ def check_price():
 ## Automating Data Collection
 This function uses a while loop in conjunction with the time function to gather data from the site and write it to the CSV. I have this set to fetch data once a day but this can be configured to your needs. This is what makes this different than just copying the data into Excel.
 
+```python
+while(True):
+    check_price()
+    time.sleep(86400)
+```
+
 ## Additional Functionality
 Here I am adding a function that will send me an email when the price of the item goes below a certain point. I am using the **SMTP** library to make this possible. The only thing missing is my password, which will not be provided (lol).
 
+```python
 
+def send_mail():
+    server = smtplib.SMTP_SSL('smtp.gmail.com',465)
+    server.ehlo()
+    server.ehlo()
+    server.login('solvedbysteve@gmail.com','xxxxxxxxxxxxxx')
+    
+    subject = "We've found a Diamond in the Rough. Check it out."
+    body = "Steven, the hoodie you want is below $100!! Don't mess it up! Link here: https://www.diamondsupplyco.com/collections/diamond-x-nautica/products/diamond-supply-co-nautica-polar-fleece-anorak-jacket-diamond-blue"
+    msg = f"Subject: {subject}\n\n{body}"
+    
+    server.sendmail(
+        'solvedbysteve@gmail.com',
+        msg
+    )
+    if (price < 100):
+        
+        send_mail()
+    else:
+        print('There was an error proccesing your request')
+ ```
+        
  
 ## Conclusion
  This was another fun project and it's one that can be built upon by making the requests more complex and changing how often the data is collected. Stay tuned for more Data Science projects!
